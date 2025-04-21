@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <h1>Welcome to the Gradebook</h1>
+  <p>Manage grades and view student records.</p>
+  <a href="/add" class="btn btn-primary">Add Grade</a>
+  <a href="{{ url_for('what_if') }}" class="btn btn-secondary ms-2">What-If Grades</a>
+
+  <h2 class="mt-4">Students:</h2>
+  <ul class="list-unstyled">
+    {% for student in students %}
+      <li class="mb-2">
+        <strong>{{ student }}</strong> &mdash;
+        <a href="{{ url_for('view_grade', student=student) }}" class="btn btn-sm btn-outline-primary">View Grades</a>
+        <a href="{{ url_for('dijkstra', student_name=student) }}" class="btn btn-sm btn-outline-success ms-2">Strategy</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

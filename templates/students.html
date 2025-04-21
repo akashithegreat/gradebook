@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Students</h2>
+  <ul class="list-group">
+    {% for key, student in students.items() %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ student.first_name }} {{ student.last_name }}
+        <a href="{{ url_for('view_student', student_id=key) }}" class="btn btn-sm btn-outline-primary">View Grades</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

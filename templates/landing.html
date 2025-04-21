@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; text-align: center;">
+    <h1 class="mb-4">🎓 Welcome to Gradebook</h1>
+    <p class="mb-4">Choose your role to continue</p>
+    
+    <div style="display: flex; gap: 20px;">
+        <a href="{{ url_for('login', role='student') }}" class="btn btn-secondary">Student</a>
+        <a href="{{ url_for('login', role='teacher') }}" class="btn btn-primary">Teacher</a>        
+    </div>
+{% endblock %}

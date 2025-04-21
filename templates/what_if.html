@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}What-If Grade Simulation{% endblock %}
+{% block content %}
+  <h2>🧪 What-If Simulator for {{ student_name }}</h2>
+
+  <form method="POST">
+    {% if completed %}
+  <h5>✅ Completed Assignments</h5>
+  <div class="mb-3">
+    {% for c in completed %}
+      <div class="card mb-2 p-3 d-flex justify-content-between align-items-center">
+        <span class="fw-bold">{{ c.name }} ({{ c.weight }}%)</span>
+        <span class="badge bg-success">{{ c.score }}%</span>
+      </div>
+    {% endfor %}
+  </div>
+    {% endif %}
+
+
+    {% if assignments %}
+      <h5>📂 Remaining Assignments</h5>
+      {% for a in assignments %}
+        <label>{{ a.name }} ({{ a.weight }}%)</label>
+        <input type="number" name="score_{{ a.name }}" class="form-control mb-2" min="0" max="100">
+      {% endfor %}
+    {% endif %}
+
+    <button class="btn btn-success mt-2">Simulate Final Grade</button>
+  </form>
+
+  {% if result is not none %}
+    <div class="alert alert-info mt-4">
+      Estimated Final Grade: <strong>{{ result }}%</strong>
+    </div>
+  {% endif %}
+
+  <a href="{{ url_for('student_home') }}" class="btn btn-secondary mt-4">⬅ Back to Dashboard</a>
+{% endblock %}
+
+

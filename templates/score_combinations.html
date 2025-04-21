@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Score Combos{% endblock %}
+{% block content %}
+  <h2 class="mb-3">🧠 Target Grade Planner</h2>
+
+  <form method="POST" class="mb-4">
+    <div class="mb-2">
+      <label for="student_name">Student Name:</label>
+      <input type="text" name="student_name" class="form-control" required>
+    </div>
+    <div class="mb-2">
+      <label for="target">Target Grade (%):</label>
+      <input type="number" name="target" class="form-control" step="0.1" value="90">
+    </div>
+    <button type="submit" class="btn btn-primary">Find Combos</button>
+  </form>
+
+  {% if result %}
+    <p><strong>{{ result }}</strong></p>
+    <ul>
+      {% for combo, final in combos %}
+        <li>
+          <strong>Projected Final Grade: {{ final }}%</strong><br>
+          {% for name, weight, score in combo %}
+            {{ name }} ({{ weight }}%) → Score: {{ score }}<br>
+          {% endfor %}
+          <hr>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Student Portal{% endblock %}
+{% block content %}
+  <h2>🎓 Student Dashboard</h2>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+    <!-- View Grades -->
+    <div class="col">
+      <a href="{{ url_for('view_grade', student=session['user']) }}" style="text-decoration: none;">
+        <div class="card p-3 d-flex flex-row justify-content-between align-items-center shadow-sm">
+          <span>📄 View Your Grades</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- What-If Calculator -->
+    <div class="col">
+      <a href="{{ url_for('what_if') }}?student_name={{ session['user'] }}" style="text-decoration: none;">
+        <div class="card p-3 d-flex flex-row justify-content-between align-items-center shadow-sm">
+          <span>🧪 What-If Simulator</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Strategy Planner -->
+    <div class="col">
+      <a href="{{ url_for('strategy', student_name=session['user']) }}" style="text-decoration: none;">
+        <div class="card p-3 d-flex flex-row justify-content-between align-items-center shadow-sm">
+          <span>📈 Strategy Planner</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Optional: Back to Landing or Logout -->
+    <div class="col">
+      <a href="{{ url_for('landing') }}" style="text-decoration: none;">
+        <div class="card p-3 d-flex flex-row justify-content-between align-items-center shadow-sm text-danger">
+          <span>🔙 Log Out</span>
+        </div>
+      </a>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Welcome to the Gradebook</h1>
+
+  <div class="d-grid gap-3 col-6 mx-auto">
+    <a href="/add_student" class="btn btn-primary">Manage Grades</a>
+    <a href="/what_if" class="btn btn-outline-primary">Try What-If Grades</a>
+  </div>
+{% endblock %}

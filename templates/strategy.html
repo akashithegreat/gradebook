@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Strategy for {{ student }}{% endblock %}
+
+{% block content %}
+<h2>🎯 Strategy for {{ student }} — Target: {{ target }}%</h2>
+
+<form method="GET" class="d-flex align-items-center mb-3">
+  <label class="me-2">Adjust Target:</label>
+  <input type="number" step="0.1" name="target" value="{{ target }}" class="form-control w-auto me-2">
+  <button class="btn btn-primary">Update</button>
+</form>
+
+<!-- Current Standing -->
+<div class="mb-4">
+  <h4>✅ Current Grades</h4>
+  {% if completed %}
+    <ul class="list-group mb-2">
+      {% for c in completed %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ c.name }} ({{ c.weight }}%)
+          <span class="badge bg-success">{{ c.score }}%</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <p>You’ve completed {{ current_weight }}% of the course with an average of {{ current_avg }}%.</p>
+  <p>To reach {{ target }}%, you need to average <strong>{{ needed_avg }}%</strong> across the remaining {{ remaining_weight }}%.</p>
+</div>
+
+<!-- Best Path -->
+<div class="mb-4">
+  <h4>🔗 Best Path to Your Goal</h4>
+  {% if best_path %}
+    <ul class="list-group mb-2">
+      {% for item in best_path %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ item.name }} ({{ item.weight }}%)
+          <span class="badge bg-info text-dark">{{ item.needed_score }}%</span>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>🎉 Estimated Final Grade: <strong>{{ estimated_final }}%</strong></p>
+  {% else %}
+    <p class="text-muted">No remaining assignments.</p>
+  {% endif %}
+</div>
+
+<!-- DP Valid Combos -->
+<div class="mb-4">
+  <h4>🧠 Other Valid Score Combos</h4>
+  {% if dp_valid_combos %}
+    {% for combo in dp_valid_combos %}
+      <div class="card mb-2 p-2">
+        <ul class="mb-1">
+          {% for name, score in combo.scores %}
+            <li>{{ name }} → <strong>{{ score }}%</strong></li>
+          {% endfor %}
+        </ul>
+        <small class="text-muted">Projected Final Grade: <strong>{{ combo.final }}%</strong></small>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-muted">No valid score combinations found.</p>
+  {% endif %}
+</div>
+
+<a href="{{ url_for('student_home') }}" class="btn btn-secondary">⬅ Back to Dashboard</a>
+{% endblock %}

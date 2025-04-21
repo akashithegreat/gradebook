@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Teacher Portal{% endblock %}
+{% block content %}
+  <h2>🧑‍🏫 Teacher Dashboard</h2>
+
+  <!-- Define Class Structure -->
+  <div class="card mb-4 shadow-sm border-primary">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <h5 class="card-title mb-0">📚 Define Class Structure</h5>
+        <small class="text-muted">Assignments, tests, and their weights</small>
+      </div>
+      <a href="{{ url_for('define_structure') }}" class="btn btn-outline-primary">Edit Structure</a>
+    </div>
+  </div>
+
+  <!-- Student Grade Cards -->
+  <h4 class="mb-3">Students</h4>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for s in students %}
+      <div class="col">
+        <a href="{{ url_for('add_grade_for_student', student_name=s.name) }}" style="text-decoration: none;">
+          <div class="card p-3 d-flex flex-row justify-content-between align-items-center shadow-sm">
+            <span class="fw-bold">{{ s.name }}</span>
+            <span class="badge bg-secondary fs-6">{{ s.grade }}{% if s.grade != 'N/A' %}%{% endif %}</span>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

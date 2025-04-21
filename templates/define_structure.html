@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Define Structure{% endblock %}
+{% block content %}
+  <h2 class="mb-3">🛠️ Define Assignment Structure</h2>
+
+  <form method="POST" class="mb-4">
+    <div class="mb-2">
+      <label for="name">Assignment Name:</label>
+      <input type="text" id="name" name="name" required class="form-control">
+    </div>
+    <div class="mb-2">
+      <label for="weight">Weight (%):</label>
+      <input type="number" id="weight" name="weight" required class="form-control" step="0.1" min="0" max="100">
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+
+  {% if structure %}
+    <h4>📋 Current Structure ({{ total }}% total):</h4>
+    <ul>
+      {% for item in structure %}
+        <li>{{ item.name }} — {{ item.weight }}%</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No assignments defined yet.</p>
+  {% endif %}
+  <a href="{{ url_for('teacher_home') }}" class="btn btn-secondary mt-3">⬅ Back to Dashboard</a>
+{% endblock %}
+
+<a href="{{ url_for('teacher_home') }}" class="btn btn-secondary mt-3">⬅ Back to Dashboard</a>
+
