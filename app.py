@@ -255,20 +255,36 @@ def strategy(student_name):
 
     estimated_final = round(current_score + sum(r["weight"] * (needed_avg / 100) for r in remaining), 1)
 
-    # DP score combos
-    from itertools import product
+    # ✅ Real DP implementation
+    from collections import defaultdict
+
+    dp = defaultdict(list)
+    dp[0] = [(0, [])]  # weight_sum -> list of (weighted_score_sum, [(assignment_name, score)])
 
     possible_scores = [100, 95, 90, 85, 80]
-    dp_valid_combos = []
 
-    for combo in product(possible_scores, repeat=len(remaining)):
-        weighted = sum(combo[i] * (remaining[i]["weight"] / 100) for i in range(len(combo)))
-        total = current_score + weighted
-        if total >= target:
-            dp_valid_combos.append({
-                "scores": list(zip([r["name"] for r in remaining], combo)),
-                "final": round(total, 1)
-            })
+    for i, assignment in enumerate(remaining):
+        temp = defaultdict(list)
+        for score in possible_scores:
+            for weight_so_far in dp:
+                new_weight = weight_so_far + assignment["weight"]
+                if new_weight > 100:
+                    continue
+                for total_score, path in dp[weight_so_far]:
+                    new_total = total_score + score * (assignment["weight"] / 100)
+                    new_path = path + [(assignment["name"], score)]
+                    temp[new_weight].append((new_total, new_path))
+        for w in temp:
+            dp[w].extend(temp[w])
+
+    dp_valid_combos = []
+    for w in dp:
+        for total_score, path in dp[w]:
+            final = round(current_score + total_score, 1)
+            if final >= target:
+                dp_valid_combos.append({ "scores": path, "final": final })
+
+    dp_valid_combos = sorted(dp_valid_combos, key=lambda x: x["final"], reverse=True)[:3]
 
     return render_template(
         "strategy.html",
@@ -280,11 +296,12 @@ def strategy(student_name):
         needed_avg=needed_avg,
         best_path=best_path,
         estimated_final=estimated_final,
-        dp_valid_combos=dp_valid_combos[:3],  # only show top 3
+        dp_valid_combos=dp_valid_combos,
         completed=completed
     )
 
 
 
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5003)
+    app.run(debug=True, port=5005)
